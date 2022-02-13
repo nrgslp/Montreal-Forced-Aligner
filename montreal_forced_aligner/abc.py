@@ -631,7 +631,7 @@ class TopLevelMfaWorker(MfaWorker, TemporaryDirectoryMixin, metaclass=abc.ABCMet
         if self.verbose:
             handler.setLevel(logging.DEBUG)
         else:
-            handler.setLevel(logging.INFO)
+            handler.setLevel(logging.ERROR)
         handler.setFormatter(CustomFormatter())
         self.logger.addHandler(handler)
         self.logger.debug(
