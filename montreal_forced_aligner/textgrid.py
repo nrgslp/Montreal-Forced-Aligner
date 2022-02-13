@@ -1,7 +1,7 @@
 """
 Textgrid utilities
 ==================
-
+#this version has modifications specific to PERCEPT-AI
 """
 from __future__ import annotations
 
@@ -157,32 +157,39 @@ def export_textgrid(
         tg.addTier(phone_tier)
     has_data = False
     for speaker, data in speaker_data.items():
-        words = data["words"]
-        phones = data["phones"]
-        if len(words) and len(phones):
-            has_data = True
-        tg_words = []
-        tg_phones = []
-        for w in words:
-            if duration - w.end < frame_shift:  # Fix rounding issues
-                w.end = duration
-            tg_words.append(w.to_tg_interval())
-        for p in phones:
-            if duration - p.end < frame_shift:  # Fix rounding issues
-                p.end = duration
-            tg_phones.append(p.to_tg_interval())
+        for p in data['phones']:
+            perceptdata = p.to_tg_interval()
+            if "R" in perceptdata[-1]:
+                outfile = open(os.path.join(output_path.replace(".TextGrid", '.pickle')),'wb')
+                pickle.dump((perceptdata[0], perceptdata[1]), outfile)
+                outfile.close()
+                break
+        #words = data["words"]
+        #phones = data["phones"]
+        #if len(words) and len(phones):
+        #    has_data = True
+        #tg_words = []
+        #tg_phones = []
+        #for w in words:
+        #    if duration - w.end < frame_shift:  # Fix rounding issues
+        #        w.end = duration
+        #    tg_words.append(w.to_tg_interval())
+        #for p in phones:
+        #    if duration - p.end < frame_shift:  # Fix rounding issues
+        #        p.end = duration
+        #    tg_phones.append(p.to_tg_interval())
 
-        if len(speaker_data) > 1:
-            word_tier_name = f"{speaker} - words"
-            phone_tier_name = f"{speaker} - phones"
-        else:
-            word_tier_name = "words"
-            phone_tier_name = "phones"
-        word_tier = tgio.IntervalTier(word_tier_name, tg_words, minT=0, maxT=duration)
-        phone_tier = tgio.IntervalTier(phone_tier_name, tg_phones, minT=0, maxT=duration)
-        tg.replaceTier(word_tier_name, word_tier)
-        tg.replaceTier(phone_tier_name, phone_tier)
-    if has_data:
-        tg.save(
-            output_path, includeBlankSpaces=True, format="long_textgrid", reportingMode="error"
-        )
+        #if len(speaker_data) > 1:
+        #    word_tier_name = f"{speaker} - words"
+        #    phone_tier_name = f"{speaker} - phones"
+        #else:
+        #    word_tier_name = "words"
+        #    phone_tier_name = "phones"
+        #word_tier = tgio.IntervalTier(word_tier_name, tg_words, minT=0, maxT=duration)
+        #phone_tier = tgio.IntervalTier(phone_tier_name, tg_phones, minT=0, maxT=duration)
+        #tg.replaceTier(word_tier_name, word_tier)
+        #tg.replaceTier(phone_tier_name, phone_tier)
+    #if has_data:
+        #tg.save(
+        #    output_path, includeBlankSpaces=True, format="long_textgrid", reportingMode="error"
+        #)
