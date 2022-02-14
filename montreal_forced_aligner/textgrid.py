@@ -11,7 +11,7 @@ import typing
 from typing import Dict, List
 
 from praatio import textgrid as tgio
-
+import pickle
 from montreal_forced_aligner.data import CtmInterval
 from montreal_forced_aligner.exceptions import TextGridParseError
 
