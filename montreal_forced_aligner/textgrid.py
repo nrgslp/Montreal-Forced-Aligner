@@ -157,9 +157,24 @@ def export_textgrid(
         tg.addTier(phone_tier)
     has_data = False
     for speaker, data in speaker_data.items():
+        minw = 99
+        maxw = 0
+        for w in data['words']:
+            worddata = w.to_tg_interval()
+            if duration - w.end < frame_shift:  # Fix rounding issues
+                w.end = duration
+            if worddata[0] < minw:
+                minw = worddata[0]
+            if worddata[1] > maxw:
+                maxw = worddata[1]
+            outfile = open(os.path.join(output_path.replace(".TextGrid", '_word.pickle')),'wb')
+            pickle.dump((minw, maxw), outfile)
+            outfile.close()
         for p in data['phones']:
             perceptdata = p.to_tg_interval()
             if "R" in perceptdata[-1]:
+                if duration - p.end < frame_shift:  # Fix rounding issues
+                    p.end = duration
                 outfile = open(os.path.join(output_path.replace(".TextGrid", '.pickle')),'wb')
                 pickle.dump((perceptdata[0], perceptdata[1]), outfile)
                 outfile.close()
