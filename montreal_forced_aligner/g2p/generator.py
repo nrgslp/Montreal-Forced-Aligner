@@ -357,7 +357,7 @@ class PyniniGenerator(G2PTopLevelMixin):
                 sleep_increment = 10
             else:
                 sleep_increment = 2
-            with tqdm.tqdm(total=num_words) as pbar:
+            with tqdm.tqdm(total=num_words, disable=True) as pbar:
                 while value < num_words:
                     time.sleep(sleep_increment)
                     if stopped.stop_check():

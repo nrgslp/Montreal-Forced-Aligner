@@ -149,7 +149,7 @@ class CorpusAligner(AcousticCorpusPronunciationMixin, AlignMixin, FileExporterMi
         else:
             self.logger.info("Collecting phone alignments from alignment lattices...")
             jobs = self.phone_alignment_arguments()  # Phone CTM jobs
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -233,7 +233,7 @@ class CorpusAligner(AcousticCorpusPronunciationMixin, AlignMixin, FileExporterMi
         os.makedirs(export_directory, exist_ok=True)
         export_errors = {}
         total_files = len(self.files)
-        with tqdm.tqdm(total=total_files) as pbar:
+        with tqdm.tqdm(total=total_files, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 textgrid_errors = manager.dict()

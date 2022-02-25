@@ -713,7 +713,7 @@ class PyniniTrainer(PronunciationDictionaryMixin, G2PTrainer, TopLevelMfaWorker)
             self.logger.info("Calculating alignments...")
             begin = time.time()
             max_value = num_commands * max_iters
-            with tqdm.tqdm(total=num_commands * max_iters) as pbar:
+            with tqdm.tqdm(total=num_commands * max_iters, disable=True) as pbar:
                 for start in starts:
                     job_queue.put(start)
                 manager = mp.Manager()

@@ -104,7 +104,7 @@ class AcousticCorpusMixin(CorpusMixin, FeatureConfigMixin, metaclass=ABCMeta):
         self.log_info("Loading reference files...")
         indices = []
         jobs = []
-        with tqdm.tqdm(total=len(self.files)) as pbar:
+        with tqdm.tqdm(total=len(self.files), disable=True) as pbar:
             for root, _, files in os.walk(reference_directory, followlinks=True):
                 root_speaker = os.path.basename(root)
                 for f in files:
@@ -402,7 +402,7 @@ class AcousticCorpusMixin(CorpusMixin, FeatureConfigMixin, metaclass=ABCMeta):
         self.log_info("Generating MFCCs...")
         log_directory = os.path.join(self.split_directory, "log")
         os.makedirs(log_directory, exist_ok=True)
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -491,7 +491,7 @@ class AcousticCorpusMixin(CorpusMixin, FeatureConfigMixin, metaclass=ABCMeta):
         self.log_info("Calculating fMLLR for speaker adaptation...")
 
         arguments = self.calc_fmllr_arguments()
-        with tqdm.tqdm(total=self.num_speakers) as pbar:
+        with tqdm.tqdm(total=self.num_speakers, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -548,7 +548,7 @@ class AcousticCorpusMixin(CorpusMixin, FeatureConfigMixin, metaclass=ABCMeta):
         self.log_info("Computing VAD...")
 
         arguments = self.compute_vad_arguments()
-        with tqdm.tqdm(total=self.num_speakers) as pbar:
+        with tqdm.tqdm(total=self.num_speakers, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -757,7 +757,7 @@ class AcousticCorpusMixin(CorpusMixin, FeatureConfigMixin, metaclass=ABCMeta):
             finished_adding.stop()
             self.log_debug("Finished adding jobs!")
 
-            with tqdm.tqdm(total=file_counts) as pbar:
+            with tqdm.tqdm(total=file_counts, disable=True) as pbar:
                 while True:
                     try:
                         file = return_queue.get(timeout=1)

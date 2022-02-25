@@ -624,7 +624,7 @@ class Transcriber(
                 p = KaldiProcessWorker(i, return_queue, function, error_dict, stopped)
                 procs.append(p)
                 p.start()
-            with tqdm.tqdm(total=len(dict_arguments)) as pbar:
+            with tqdm.tqdm(total=len(dict_arguments), disable=True) as pbar:
                 while True:
                     try:
                         result, hclg_path = return_queue.get(timeout=1)
@@ -650,7 +650,7 @@ class Transcriber(
         else:
             for args in dict_arguments:
                 function = CreateHclgFunction(args)
-                with tqdm.tqdm(total=len(dict_arguments)) as pbar:
+                with tqdm.tqdm(total=len(dict_arguments), disable=True) as pbar:
                     for result, hclg_path in function.run():
                         if result:
                             self.log_debug(f"Done generating {hclg_path}!")
@@ -759,7 +759,7 @@ class Transcriber(
         :class:`~montreal_forced_aligner.transcription.multiprocessing.ScoreArguments`
             Arguments for function
         """
-        with tqdm.tqdm(total=self.num_utterances) as pbar, open(
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar, open(
             os.path.join(self.evaluation_directory, "score_costs.csv"), "w", encoding="utf8"
         ) as log_file:
             log_file.write("utterance,graph_cost,acoustic_cost,total_cost,num_frames\n")
@@ -837,7 +837,7 @@ class Transcriber(
                     self.word_insertion_penalties,
                 )
             )
-            with tqdm.tqdm(total=len(evaluations)) as pbar:
+            with tqdm.tqdm(total=len(evaluations), disable=True) as pbar:
                 for lmwt, wip in evaluations:
                     pbar.update(1)
                     self.language_model_weight = lmwt
@@ -880,7 +880,7 @@ class Transcriber(
         """
         self.logger.info("Calculating initial fMLLR transforms...")
         sum_errors = 0
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -932,7 +932,7 @@ class Transcriber(
             Arguments for function
         """
         self.logger.info("Regenerating lattices with fMLLR transforms...")
-        with tqdm.tqdm(total=self.num_utterances) as pbar, open(
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar, open(
             os.path.join(self.working_log_directory, "lat_gen_fmllr_log_like.csv"),
             "w",
             encoding="utf8",
@@ -988,7 +988,7 @@ class Transcriber(
         """
         self.logger.info("Calculating final fMLLR transforms...")
         sum_errors = 0
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -1041,7 +1041,7 @@ class Transcriber(
         """
         self.logger.info("Rescoring fMLLR lattices with final transform...")
         sum_errors = 0
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -1127,7 +1127,7 @@ class Transcriber(
             Arguments for function
         """
         self.logger.info("Generating lattices...")
-        with tqdm.tqdm(total=self.num_utterances) as pbar, open(
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar, open(
             os.path.join(self.working_log_directory, "decode_log_like.csv"), "w", encoding="utf8"
         ) as log_file:
             log_file.write("utterance,log_likelihood,num_frames\n")
@@ -1191,7 +1191,7 @@ class Transcriber(
                 p = KaldiProcessWorker(i, return_queue, function, error_dict, stopped)
                 procs.append(p)
                 p.start()
-            with tqdm.tqdm(total=self.num_utterances) as pbar:
+            with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
                 while True:
                     try:
                         succeeded, failed = return_queue.get(timeout=1)
@@ -1216,7 +1216,7 @@ class Transcriber(
         else:
             for args in self.lm_rescore_arguments():
                 function = LmRescoreFunction(args)
-                with tqdm.tqdm(total=self.num_jobs) as pbar:
+                with tqdm.tqdm(total=self.num_jobs, disable=True) as pbar:
                     for succeeded, failed in function.run():
                         if failed:
                             self.log_warning("Some lattices failed to be rescored")
@@ -1245,7 +1245,7 @@ class Transcriber(
                 p = KaldiProcessWorker(i, return_queue, function, error_dict, stopped)
                 procs.append(p)
                 p.start()
-            with tqdm.tqdm(total=self.num_utterances) as pbar:
+            with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
                 while True:
                     try:
                         succeeded, failed = return_queue.get(timeout=1)
@@ -1270,7 +1270,7 @@ class Transcriber(
         else:
             for args in self.carpa_lm_rescore_arguments():
                 function = CarpaLmRescoreFunction(args)
-                with tqdm.tqdm(total=self.num_utterances) as pbar:
+                with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
                     for succeeded, failed in function.run():
                         if failed:
                             self.log_warning("Some lattices failed to be rescored")

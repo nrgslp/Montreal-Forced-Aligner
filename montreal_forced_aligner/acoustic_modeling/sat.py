@@ -303,7 +303,7 @@ class SatTrainer(TriphoneTrainer):
         begin = time.time()
 
         arguments = self.acc_stats_two_feats_arguments()
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()

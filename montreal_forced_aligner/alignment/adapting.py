@@ -97,7 +97,7 @@ class AdaptingAligner(PretrainedAligner, AdapterMixin):
         if not os.path.exists(initial_mdl_path):
             return
         self.logger.info("Accumulating statistics...")
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()

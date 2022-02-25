@@ -593,7 +593,7 @@ class AcousticModelTrainingMixin(
         """
         self.logger.info("Accumulating statistics...")
         arguments = self.acc_stats_arguments()
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()

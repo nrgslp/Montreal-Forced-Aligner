@@ -100,7 +100,7 @@ class IvectorCorpusMixin(AcousticCorpusMixin, IvectorConfigMixin):
         os.makedirs(log_dir, exist_ok=True)
 
         arguments = self.extract_ivectors_arguments()
-        with tqdm.tqdm(total=self.num_speakers) as pbar:
+        with tqdm.tqdm(total=self.num_speakers, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()

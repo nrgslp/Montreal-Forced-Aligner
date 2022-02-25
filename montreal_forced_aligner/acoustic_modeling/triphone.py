@@ -277,7 +277,7 @@ class TriphoneTrainer(AcousticModelTrainingMixin):
         """
         self.log_info("Converting alignments...")
         arguments = self.convert_alignments_arguments()
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()

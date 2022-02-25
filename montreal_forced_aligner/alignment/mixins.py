@@ -234,7 +234,7 @@ class AlignMixin(DictionaryMixin):
         self.logger.info("Compiling training graphs...")
         error_sum = 0
         arguments = self.compile_train_graphs_arguments()
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
@@ -296,7 +296,7 @@ class AlignMixin(DictionaryMixin):
         begin = time.time()
         self.unaligned_files = set()
         self.logger.info("Generating alignments...")
-        with tqdm.tqdm(total=self.num_utterances) as pbar:
+        with tqdm.tqdm(total=self.num_utterances, disable=True) as pbar:
             if self.use_mp:
                 manager = mp.Manager()
                 error_dict = manager.dict()
