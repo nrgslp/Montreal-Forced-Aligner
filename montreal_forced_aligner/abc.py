@@ -632,7 +632,7 @@ class TopLevelMfaWorker(MfaWorker, TemporaryDirectoryMixin, metaclass=abc.ABCMet
         if self.verbose:
             handler.setLevel(logging.DEBUG)
         else:
-            handler.setLevel(logging.ERROR)
+            handler.setLevel(logging.ERROR) #SET for PERCEPT
         handler.setFormatter(CustomFormatter())
         self.logger.addHandler(handler)
         self.logger.debug(
