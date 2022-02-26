@@ -465,9 +465,13 @@ class AcousticModel(Archive):
             Destination directory to extract files to
         """
         os.makedirs(destination, exist_ok=True)
-        for f in self.files:
-            if os.path.exists(os.path.join(self.dirname, f)):
-                copyfile(os.path.join(self.dirname, f), os.path.join(destination, f))
+        # print(self.dirname)
+        # print(destination)
+        [copyfile(os.path.join(self.dirname, f), os.path.join(destination, f)) for f in self.files if os.path.exists(os.path.join(self.dirname, f))]
+        # for f in self.files:
+        #     print(f)
+        #     if os.path.exists(os.path.join(self.dirname, f)):
+        #         copyfile(os.path.join(self.dirname, f), os.path.join(destination, f))
 
     def log_details(self, logger: Logger) -> None:
         """

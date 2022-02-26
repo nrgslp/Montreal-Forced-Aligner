@@ -252,8 +252,8 @@ class MultispeakerDictionaryMixin(TemporaryDictionaryMixin, metaclass=abc.ABCMet
         phone_dir_storage = getPath.phone_dir_storage(this_path)
         with open(os.path.join(this_path, "pythonrun.log"), "a") as f:
             f.write(f"\n looking for phone_dir_storage in {phone_dir_storage}")
-        for f in os.listdir(phone_dir_storage):
-            shutil.copyfile(os.path.join(phone_dir_storage, f), os.path.join(self.phones_dir, f))
+        #for f in os.listdir(phone_dir_storage):
+        [shutil.copyfile(os.path.join(phone_dir_storage, f), os.path.join(self.phones_dir, f)) for f in os.listdir(phone_dir_storage)]
         # self._write_word_boundaries()
         # self._write_phone_sets()
         # self._write_phone_symbol_table()

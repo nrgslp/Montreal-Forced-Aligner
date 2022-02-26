@@ -169,7 +169,7 @@ class PretrainedAligner(CorpusAligner, TopLevelMfaWorker):
                     f"were ignored for containing one of {len(self.excluded_phones)} phones not present in the"
                     f"trained acoustic model.  Please run `mfa validate` to get more details."
                 )
-            self.acoustic_model.validate(self)
+            #self.acoustic_model.validate(self)
             self.acoustic_model.export_model(self.working_directory)
             self.acoustic_model.log_details(self.logger)
 

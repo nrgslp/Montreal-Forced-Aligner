@@ -959,12 +959,12 @@ class AcousticCorpusPronunciationMixin(
 
         begin = time.time()
 
-        self.log_debug("Topology:")
-        for k, v in self.kaldi_phones_for_topo.items():
-            self.log_debug(f"{k}: {', '.join(v)}")
-        self.log_debug("Extra questions:")
-        for k, v in self.extra_questions_mapping.items():
-            self.log_debug(f"{k}: {', '.join(v)}")
+        #self.log_debug("Topology:")
+        #for k, v in self.kaldi_phones_for_topo.items():
+        #    self.log_debug(f"{k}: {', '.join(v)}")
+        #self.log_debug("Extra questions:")
+        #for k, v in self.extra_questions_mapping.items():
+        #    self.log_debug(f"{k}: {', '.join(v)}")
         self.write_lexicon_information()
         self.log_debug(f"Wrote lexicon information in {time.time() - begin}")
 
