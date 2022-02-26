@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import abc
 import os
+this_path = os.path.dirname(os.path.abspath( __file__ ))
+import getPathsPERCEPT as getPath
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Collection, Dict, Optional, Tuple, Union
 
@@ -246,12 +248,18 @@ class MultispeakerDictionaryMixin(TemporaryDictionaryMixin, metaclass=abc.ABCMet
             d.generate_mappings()
             if d.max_disambiguation_symbol > self.max_disambiguation_symbol:
                 self.max_disambiguation_symbol = d.max_disambiguation_symbol
-        self._write_word_boundaries()
-        self._write_phone_sets()
-        self._write_phone_symbol_table()
-        self._write_disambig()
-        self._write_topo()
-        self._write_extra_questions()
+        import shutil
+        phone_dir_storage = getPath.phone_dir_storage(this_path)
+        with open(os.path.join(this_path, "pythonrun.log"), "a") as f:
+            f.write(f"\n looking for phone_dir_storage in {phone_dir_storage}")
+        for f in os.listdir(phone_dir_storage):
+            shutil.copyfile(os.path.join(phone_dir_storage, f), os.path.join(self.phones_dir, f))
+        # self._write_word_boundaries()
+        # self._write_phone_sets()
+        # self._write_phone_symbol_table()
+        # self._write_disambig()
+        # self._write_topo()
+        # self._write_extra_questions()
         for d in self.dictionary_mapping.values():
             d.write(write_disambiguation, debug=getattr(self, "debug", False))
 
